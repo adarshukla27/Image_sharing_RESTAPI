@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from contextlib import asynccontextmanager
 from sqlalchemy import select
 from app.images import imagekit
-# from imagekitio import UploadFileRequestOptions -- Need to remove it
 import shutil
 import os
 import uuid
@@ -34,11 +33,11 @@ async def upload_file(
     
         with open(temp_file_path, "rb") as f:
             upload_result = imagekit.files.upload(
-            file=f,
-            file_name=file.filename,
-            use_unique_file_name=True,
-            tags=["backend-upload"],
-        )
+                file=f,
+                file_name=file.filename,
+                use_unique_file_name=True,
+                tags=["backend-upload"],
+            )
 
 
 
@@ -83,3 +82,26 @@ async def get_feed(
             }
         )
     return {"posts": posts_data}
+
+
+@app.delete("/posts/{post_id}")
+async def delete_post(
+    post_id: str,
+    session: AsyncSession = Depends(get_async_session)
+):
+    result = await session.execute(select(Post).where(Post.id == post_id)) 
+    post = result.scalars().first()
+
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    try:
+        # delete_result = imagekit.files.delete(f"{post.file_name}")
+        await session.delete(post)
+        await session.commit()
+
+        return {"success": True, "message": "Post deleted successfully"}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
