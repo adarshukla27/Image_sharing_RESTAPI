@@ -62,6 +62,46 @@ JWT_SECRET_KEY=your_jwt_secret
 ⚠️ Do not commit .env files to version control.
 
 
+## 📡 API Endpoints Overview
+
+**🔑 Authentication**
+| Method |	Endpoint |	Description |
+|------|-----------|-------------|
+| POST |	`/auth/register` |	Register user |
+| POST |	`/auth/jwt/login` |	Login user |
+| POST |	`/auth/forgot-password` |	Reset password |
+| POST |	`/auth/verify` |	Verify user email |
+
+---
+
+**🖼️ Posts & Media**
+| Method |	Endpoint |	Description |
+|------|-----------|-------------|
+| POST |	`/upload` |	Upload image or video |
+| GET |	`/feed` |	Fetch all posts |
+| DELETE |	`/posts/{post_id}` |	Delete own post |
+
+## API Docs Screenshots
+![FastAPI Docs Screenshot](./assests/image.png)
+
+![FastAPI Docs Screenshot](./assests/image-1.png)
+
+![FastAPI Docs Screenshot](./assests/image-2.png)
+
+## 🔐 Authentication Flow
+
+This project uses JWT Bearer Authentication:
+
+Register → `/auth/register`
+
+Login → `/auth/jwt/login`
+
+Use the access token in request headers:
+```
+Authorization: Bearer <token>
+```
+
+
 ## 📦 Installation & Setup
 **⚒️ Clone the Repository**
 ```
@@ -110,40 +150,6 @@ Interactive API documentation:
 Swagger UI → `http://localhost:8000/docs`
 
 ReDoc → `http://localhost:8000/redoc`
-
-
-## 🔐 Authentication Flow
-
-This project uses JWT Bearer Authentication:
-
-Register → `/auth/register`
-
-Login → `/auth/jwt/login`
-
-Use the access token in request headers:
-```
-Authorization: Bearer <token>
-```
-
-
-## 📡 API Endpoints Overview
-
-**🔑 Authentication**
-| Method |	Endpoint |	Description |
-|------|-----------|-------------|
-| POST |	`/auth/register` |	Register user |
-| POST |	`/auth/jwt/login` |	Login user |
-| POST |	`/auth/forgot-password` |	Reset password |
-| POST |	`/auth/verify` |	Verify user email |
-
----
-
-**🖼️ Posts & Media**
-| Method |	Endpoint |	Description |
-|------|-----------|-------------|
-| POST |	`/upload` |	Upload image or video |
-| GET |	`/feed` |	Fetch all posts |
-| DELETE |	`/posts/{post_id}` |	Delete own post |
 
 
 ## 🧠 Core Design Decisions
